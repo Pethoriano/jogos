@@ -12,15 +12,32 @@
     <title>Lista de Jogos</title>
 </head>
 <body>
-<div class="container d-flex justify-content-start">
-    <div class="container " th:each="lista : ${lista}">
+
+<div class="container">
+    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+            <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
+            <span class="fs-4">Lista de Jogos</span>
+        </a>
+
+        <ul class="nav nav-pills">
+            <li class="nav-item"><a href="/home" class="nav-link active" aria-current="page">Home</a></li>
+            <li class="nav-item"><a href="/home/jogado" class="nav-link">Jogados</a></li>
+            <li class="nav-item"><a href="/home/jogando" class="nav-link">Jogando</a></li>
+            <li class="nav-item"><a href="/home/jogarei" class="nav-link">Jogarei</a></li>
+        </ul>
+    </header>
+</div>
+
+<div class=" d-flex container.md justify-content-start">
+    <div class="d-flex container.md " th:each="lista : ${lista}">
             <div class="card" style="width: 18rem;">
                 <img class="card-img-top" th:src="${lista.imagem}" src=""/>
                 <div class="card-body">
                     <h5 class="card-title" th:text="${lista.nome}" value="nome"></h5>
                     <p class="card-text" th:text="${lista.avaliacao}" value="avaliacao"></p>
                     <div class="d-flex justify-content-around">
-                        <a href="#" class="btn btn-primary">Deletar</a>
+                        <a th:href="@{/home/deletagame(id=${lista.id})}" class="btn btn-primary">Deletar</a>
                         <a href="#" class="btn btn-primary">Alterar Status</a>
                     </div>
                 </div>

@@ -7,4 +7,5 @@ import java.util.List;
 public interface GamesRepository extends JpaRepository <Games, Long> {
 
     List<GamesResponseDTO> findByStatus(GamesStatus gamesStatus);
+
 }

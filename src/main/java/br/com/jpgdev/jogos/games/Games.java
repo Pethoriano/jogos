@@ -1,6 +1,5 @@
 package br.com.jpgdev.jogos.games;
 
-import ch.qos.logback.core.pattern.parser.FormattingNode;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
