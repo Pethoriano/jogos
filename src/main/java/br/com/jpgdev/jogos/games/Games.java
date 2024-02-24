@@ -20,12 +20,15 @@ public class Games {
     private Integer nota;
     private String imagem;
     private String avaliacao;
+    @Enumerated(EnumType.STRING)
+    private GamesStatus status;
 
     public Games(GamesRequestDTO data){
         this.nome = data.nome();
         this.nota = data.nota();
         this.imagem = data.imagem();
         this.avaliacao = data.avaliacao();
+        this.status=data.status();
     }
 
 }
