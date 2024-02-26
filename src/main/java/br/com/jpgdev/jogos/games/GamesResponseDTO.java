@@ -4,7 +4,6 @@ public record GamesResponseDTO(Long id, String nome, Integer nota, String imagem
 
     public GamesResponseDTO(Games games){
         this(games.getId(), games.getNome(), games.getNota(), games.getImagem(), games.getAvaliacao(), games.getStatus());
-
     }
 
 }

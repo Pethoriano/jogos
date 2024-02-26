@@ -30,4 +30,12 @@ public class Games {
         this.status=data.status();
     }
 
+
+    public void atualizaJogo(GamesRequestDTO dados) {
+        this.nome = dados.nome();
+        this.nota = dados.nota();
+        this.imagem = dados.imagem();
+        this.avaliacao = dados.avaliacao();
+        this.status=dados.status();
+    }
 }
