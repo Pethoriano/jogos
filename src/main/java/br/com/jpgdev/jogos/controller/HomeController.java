@@ -33,6 +33,7 @@ public class GamesController {
     }
 
     @PostMapping
+    @Transactional
     public String saveGames(@RequestBody GamesRequestDTO data) {
         Games gamesdata = new Games(data);
         repository.save(gamesdata);
@@ -58,17 +59,22 @@ public class GamesController {
 
     @GetMapping("/alteragame")
     public String getAlteraGame(Long id, Model model) {
-        List<GamesResponseDTO> game = repository.findById(id).stream().map(GamesResponseDTO::new).toList();
-        model.addAttribute("game", game);
+        var game = repository.findById(id);
+        model.addAttribute("games", game);
         return "alteragame";
     }
 
-    @PutMapping("/alteragame")
+    @PostMapping("/alteragame")
     @Transactional
-    public String alteraGame(@RequestBody GamesRequestDTO dados, Long id){
+    public String alteraGame(Long id, GamesRequestDTO dados){
         Games game = repository.getReferenceById(id);
         game.atualizaJogo(dados);
-        return "home";
+        return "redirect:/home";
+    }
+
+    @GetMapping("/cadastragame")
+    public String getcadastraGame(Model model) {
+        return "cadastragame";
     }
 
 
