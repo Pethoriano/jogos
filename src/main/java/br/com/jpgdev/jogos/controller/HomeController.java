@@ -2,18 +2,16 @@ package br.com.jpgdev.jogos.controller;
 
 import br.com.jpgdev.jogos.games.*;
 import jakarta.transaction.Transactional;
-import jdk.jshell.Snippet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.PublicKey;
 import java.util.List;
 
 @Controller
-@RequestMapping("/home")
-public class GamesController {
+@RequestMapping
+public class HomeController {
 
     @Autowired
     private GamesRepository repository;
@@ -31,52 +29,6 @@ public class GamesController {
         model.addAttribute("lista", listaDeGames);
         return "home";
     }
-
-    @PostMapping
-    @Transactional
-    public String saveGames(@RequestBody GamesRequestDTO data) {
-        Games gamesdata = new Games(data);
-        repository.save(gamesdata);
-        return "redirect:/home";
-    }
-
-    /*@DeleteMapping ()
-    public String deletaGame(Long id) {
-        repository.deleteById(id);
-        return "redirect:/home";
-    }*/
-    //Foi opção minha não usar o DeleteMapping, li um pouco e teria que fazer um form (o que achei uma "gambiarra")
-    //por o thymeleaf/html nn suportar o method, ou usar outras ferramentas como o JS que nn é o meu foco atual.
-    //Aparentemente pelo o que li não se trata de um problema optar por essa escolha.
-    //Devido ao escopo do projeto, acredito nn ter problema optar pelo get.
-
-    @GetMapping("/deletagame")
-    @Transactional
-    public String deletaGame(Long id) {
-        repository.deleteById(id);
-        return "redirect:/home";
-    }
-
-    @GetMapping("/alteragame")
-    public String getAlteraGame(Long id, Model model) {
-        var game = repository.findById(id);
-        model.addAttribute("games", game);
-        return "alteragame";
-    }
-
-    @PostMapping("/alteragame")
-    @Transactional
-    public String alteraGame(Long id, GamesRequestDTO dados){
-        Games game = repository.getReferenceById(id);
-        game.atualizaJogo(dados);
-        return "redirect:/home";
-    }
-
-    @GetMapping("/cadastragame")
-    public String getcadastraGame(Model model) {
-        return "cadastragame";
-    }
-
 
     @ExceptionHandler(IllegalArgumentException.class)
     public String onError() {
