@@ -15,11 +15,11 @@ public class DeletaGameController {
     @Autowired
     private GamesRepository repository;
 
-    @DeleteMapping
+    @GetMapping
     @Transactional
     public String deletaGame(Long id) {
         repository.deleteById(id);
-        return "redirect:/home";
+        return "redirect:/";
     }
 
 }

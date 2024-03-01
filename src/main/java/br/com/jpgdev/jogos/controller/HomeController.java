@@ -18,20 +18,20 @@ public class HomeController {
 
     @GetMapping
     public String getAll(Model model){
-        List<GamesResponseDTO> listaDeGames = repository.findAll().stream().map(GamesResponseDTO::new).toList();
-        model.addAttribute("lista", listaDeGames);
+        List<GamesResponseDTO> games = repository.findAll().stream().map(GamesResponseDTO::new).toList();
+        model.addAttribute("games", games);
         return "home";
     }
 
     @GetMapping ("/{status}")
     public String GetStatus(@PathVariable ("status") String status, Model model){
         List<GamesResponseDTO> listaDeGames = repository.findByStatus(GamesStatus.valueOf(status.toUpperCase()));
-        model.addAttribute("lista", listaDeGames);
+        model.addAttribute("games", listaDeGames);
         return "home";
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public String onError() {
-        return "redirect:/home";
+        return "redirect:/";
     }
 }
