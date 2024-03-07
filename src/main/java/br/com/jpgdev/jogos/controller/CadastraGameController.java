@@ -2,9 +2,12 @@ package br.com.jpgdev.jogos.controller;
 
 import br.com.jpgdev.jogos.games.*;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,7 +30,10 @@ public class CadastraGameController {
 
     @PostMapping
     @Transactional
-    public String saveGame(GamesRequestDTO dados) {
+    public String saveGame(@Valid GamesRequestDTO dados, BindingResult result) {
+        if(result.hasErrors()){
+            return "alteragame";
+        }
         Games gamesdata = new Games(dados);
         repository.save(gamesdata);
         return "redirect:/";

@@ -18,7 +18,7 @@ public class HomeController {
 
     @GetMapping
     public String getAll(Model model){
-        List<GamesResponseDTO> games = repository.findAll().stream().map(GamesResponseDTO::new).toList();
+        List <GamesResponseDTO> games = repository.findAll().stream().map(GamesResponseDTO::new).toList();
         model.addAttribute("games", games);
         return "home";
     }

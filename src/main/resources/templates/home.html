@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="pt-br" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="pt-br" xmlns:th="http://www.w3.org/1999/xhtml" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -32,24 +32,26 @@
     </header>
 </div>
 
-<div class="container justify-content-center">
-    <div class="row g-4">
-        <div class="col-3 col-xxl-auto" th:each="games : ${games}">
-            <div class="card" style="width: 19.3rem;">
+<div class="container">
+    <div class="row row-cols-auto g-3 justify-content-center ">
+        <div class="col" th:each="games : ${games}">
+            <div class="card h-100" style="width: 19rem;">
                 <img class="card-img-top" th:src="${games.imagem}" src=""/>
                 <div class="card-body">
                     <div class="d-flex justify-content-around">
                         <h5 class="card-title" th:text="${games.nome}" value="nome"></h5>
-                        <p class="card-text" th:text="${games.nota}" value="nota"></p>
+                        <h6 class="card-text" th:text="${games.nota}" value="nota"></h6>
                     </div>
                     <p class="card-text" th:text="${games.avaliacao}" value="avaliacao"></p>
-                    <div class="d-flex justify-content-around">
-                            <a th:href="@{/deletagame(id=${games.id})}" class="btn btn-primary">Deletar</a>
-                            <a th:href="@{/cadastragame(id=${games.id})}" class="btn btn-primary">Alterar Status</a>
-                    </div>
+                </div>
+                <div class="card-footer d-flex justify-content-around">
+                    <a th:href="@{/deletagame(id=${games.id})}" class="btn btn-primary">Deletar</a>
+                    <a th:href="@{/cadastragame(id=${games.id})}" class="btn btn-primary">Alterar Status</a>
                 </div>
             </div>
         </div>
+        <div class="w-100"></div>
+
     </div>
 </div>
 </body>
