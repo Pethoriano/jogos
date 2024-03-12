@@ -28,7 +28,12 @@ public class HomeController {
         return "home";
     }
 
-
+    @GetMapping ("/{status}")
+    public String GetStatus(@PathVariable ("status") String status, Model model, Pageable pageable){
+        Page<GamesResponseDTO> listaDeGames = repository.findByStatus(GamesStatus.valueOf(status.toUpperCase()));
+        model.addAttribute("games", listaDeGames);
+        return "home";
+    }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public String onError() {
