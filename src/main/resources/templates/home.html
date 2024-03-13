@@ -11,8 +11,8 @@
           crossorigin="anonymous">
     <title>Lista de Jogos</title>
 </head>
-<body>
 
+<body>
 
 <div class="container">
     <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
@@ -34,17 +34,17 @@
 </div>
 
 <div class="container mb-3">
-    <div class="row">
-        <div class="col"><p>Ordenar por:</p></div>
-        <div class="col">
+    <div class="row justify-content-end">
+        <div class="d-flex align-items-center col-auto" style="height: 50px;"><p>Ordenar por:</p></div>
+        <div class="col-auto">
             <form id="sortForm" method="get">
                 <select class="form-select" aria-label="Sort options" name="sort"
                         onchange="document.getElementById('sortForm').submit();">
-                    <option selected>Selecione uma opção de ordenação</option>
-                    <option value="nome,asc">Nome - Crescente</option>
-                    <option value="nome,desc">Nome - Decrescente</option>
-                    <option value="nota,asc">Nota - Crescente</option>
-                    <option value="nota,desc">Nota - Decrescente</option>
+                    <option th:selected="${sort == null}">Selecione uma opção de ordenação</option>
+                    <option value="nome,asc" th:selected="${sort == 'nome,asc'}">Nome - Crescente</option>
+                    <option value="nome,desc" th:selected="${sort == 'nome,desc'}">Nome - Decrescente</option>
+                    <option value="nota,asc" th:selected="${sort == 'nota,asc'}">Nota - Crescente</option>
+                    <option value="nota,desc" th:selected="${sort == 'nota,desc'}">Nota - Decrescente</option>
                 </select>
             </form>
         </div>
@@ -52,7 +52,7 @@
 </div>
 
 <div class="container">
-    <div class="row row-cols-auto g-3 justify-content-center ">
+    <div class="row row-cols-auto g-3 justify-content-center">
         <div class="col" th:each="games : ${games}">
             <div class="card h-100" style="width: 19rem;">
                 <img class="card-img-top" th:src="${games.imagem}" src=""/>
@@ -69,7 +69,6 @@
                 </div>
             </div>
         </div>
-        <div class="w-100"></div>
     </div>
 </div>
 
@@ -77,21 +76,24 @@
 <footer class="mt-3">
     <div class="container d-flex justify-content-center">
         <div class="row">
-            <nav aria-label="Page navigation" th:if="${games.totalElements > 4}">
-                <ul class="pagination">
-                    <li class="page-item" th:if="${games.hasPrevious()}">
-                        <a class="page-link" th:href="@{${status != null ? '/' + status : '/'}(page=${games.number-1}, sort=${sort != null ? sort : ''})}">Anterior</a>
-                    </li>
-                    <li class="page-item"
-                        th:each="i : ${#numbers.sequence(games.number > 2 ? games.number - 2 : 0, (games.totalPages > games.number + 2) ? games.number + 2 : games.totalPages - 1)}"
-                        th:classappend="${i == games.number ? 'active' : ''}">
-                        <a class="page-link" th:href="@{${status != null ? '/' + status : '/'}(page=${i}, sort=${sort != null ? sort : ''})}" th:text="${i + 1}"></a>
-                    </li>
-                    <li class="page-item" th:if="${games.hasNext()}">
-                        <a class="page-link" th:href="@{${status != null ? '/' + status : '/'}(page=${games.number+1}, sort=${sort != null ? sort : ''})}">Próximo</a>
-                    </li>
-                </ul>
-            </nav>
+            <div th:with="baseUrl=${status != null ? '/' + status : '/'},
+              sortParam=${sort != null && !sort.isEmpty() ? '&sort=' + sort : ''}">
+                <nav aria-label="Page navigation" th:if="${games.totalElements > 4}">
+                    <ul class="pagination">
+                        <li class="page-item" th:if="${games.hasPrevious()}">
+                            <a class="page-link" th:href="${baseUrl + '?page=' + (games.number - 1) + sortParam}">Anterior</a>
+                        </li>
+                        <li class="page-item"
+                            th:each="i : ${#numbers.sequence(games.number > 2 ? games.number - 2 : 0, (games.totalPages > games.number + 2) ? games.number + 2 : games.totalPages - 1)}"
+                            th:classappend="${i == games.number ? 'active' : ''}">
+                            <a class="page-link" th:href="${baseUrl + '?page=' + i + sortParam}" th:text="${i + 1}"></a>
+                        </li>
+                        <li class="page-item" th:if="${games.hasNext()}">
+                            <a class="page-link" th:href="${baseUrl + '?page=' + (games.number + 1) + sortParam}">Próximo</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
         </div>
     </div>
 </footer>

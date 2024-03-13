@@ -21,19 +21,28 @@ public class HomeController {
 
 
     @GetMapping
-    public String getAll(Model model, @PageableDefault (page = 0, size = 4) Pageable pageable, @RequestParam(required = false) String sort) {
-        Page <GamesResponseDTO> games = repository.findAll( pageable).map(GamesResponseDTO::new);
+    public String getAll(Model model,
+                         @PageableDefault (page = 0, size = 4) Pageable pageable,
+                         @RequestParam(required = false) String sort) {
+
+        Page <GamesResponseDTO> games = repository.findAll(pageable).map(GamesResponseDTO::new);
         model.addAttribute("games", games);
         model.addAttribute("sort", sort);
         return "home";
+
     }
 
     @GetMapping ("/{status}")
-    public String GetStatus(@PathVariable ("status") String status, Model model, @PageableDefault (page = 0, size = 4) Pageable pageable){
+    public String GetStatus(@PathVariable ("status") String status, Model model,
+                            @PageableDefault (page = 0, size = 4) Pageable pageable,
+                            @RequestParam(required = false) String sort){
+
         Page<GamesResponseDTO> games = repository.findByStatus(GamesStatus.valueOf(status.toUpperCase()), pageable);
         model.addAttribute("games", games);
         model.addAttribute("status", status);
+        model.addAttribute("sort", sort);
         return "home";
+
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
