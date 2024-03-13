@@ -6,4 +6,5 @@ public record GamesResponseDTO(Long id, String nome, Integer nota, String imagem
         this(games.getId(), games.getNome(), games.getNota(), games.getImagem(), games.getAvaliacao(), games.getStatus());
     }
 
+
 }

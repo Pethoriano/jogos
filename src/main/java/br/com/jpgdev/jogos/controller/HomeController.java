@@ -21,17 +21,18 @@ public class HomeController {
 
 
     @GetMapping
-    public String getAll(Model model, Pageable pageable) {
-        /*List <GamesResponseDTO> games = repository.findAll().stream().map(GamesResponseDTO::new).toList();*/
-        Page<GamesResponseDTO> games = repository.findAll(pageable).map(GamesResponseDTO::new);
+    public String getAll(Model model, @PageableDefault (page = 0, size = 4) Pageable pageable, @RequestParam(required = false) String sort) {
+        Page <GamesResponseDTO> games = repository.findAll( pageable).map(GamesResponseDTO::new);
         model.addAttribute("games", games);
+        model.addAttribute("sort", sort);
         return "home";
     }
 
     @GetMapping ("/{status}")
-    public String GetStatus(@PathVariable ("status") String status, Model model, Pageable pageable){
-        Page<GamesResponseDTO> listaDeGames = repository.findByStatus(GamesStatus.valueOf(status.toUpperCase()));
-        model.addAttribute("games", listaDeGames);
+    public String GetStatus(@PathVariable ("status") String status, Model model, @PageableDefault (page = 0, size = 4) Pageable pageable){
+        Page<GamesResponseDTO> games = repository.findByStatus(GamesStatus.valueOf(status.toUpperCase()), pageable);
+        model.addAttribute("games", games);
+        model.addAttribute("status", status);
         return "home";
     }
 

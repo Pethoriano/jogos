@@ -19,19 +19,24 @@ public class CadastraGameController {
     private GamesRepository repository;
 
     @GetMapping
-    public String getCadastraGame(Long id, Model model) {
+    public String getCadastraGame(Model model, Long id) {
         if (id!=null){
-            var games = repository.getReferenceById(id);
-            model.addAttribute("games", games);
+            Games games = repository.getReferenceById(id);
+            GamesResponseDTO gamesResponseDTO = new GamesResponseDTO(games);
+            model.addAttribute("games", gamesResponseDTO);
+            return "alteragame";
+        } else {
+            model.addAttribute("games",new GamesResponseDTO(new Games()));
+            return "cadastragame";
         }
-        return "alteragame";
     }
 
     @PostMapping
     @Transactional
-    public String saveGame(GamesRequestDTO dados, BindingResult result) {
+    public String saveGame(@Valid GamesRequestDTO dados, BindingResult result, Model model) {
         if(result.hasErrors()){
-            return "alteragame";
+            model.addAttribute("org.springframework.validation.BindingResult.games", result);
+            return "cadastragame";
         }
         Games gamesdata = new Games(dados);
         repository.save(gamesdata);
@@ -40,7 +45,14 @@ public class CadastraGameController {
 
     @PutMapping
     @Transactional
-    public String alteraGame(Long id, GamesRequestDTO dados){
+    public String alteraGame(@Valid GamesRequestDTO dados, BindingResult result, Long id, Model model){
+        if(result.hasErrors()){
+            Games games = repository.getReferenceById(id);
+            GamesResponseDTO gamesResponseDTO = new GamesResponseDTO(games);
+            model.addAttribute("games", gamesResponseDTO);
+            model.addAttribute("org.springframework.validation.BindingResult.games", result);
+            return "alteragame";
+        }
         Games game = repository.getReferenceById(id);
         game.atualizaJogo(dados);
         return "redirect:/";

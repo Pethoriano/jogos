@@ -27,6 +27,7 @@
             <li class="nav-item"><a href="/jogado" class="nav-link">Jogados</a></li>
             <li class="nav-item"><a href="/jogando" class="nav-link">Jogando</a></li>
             <li class="nav-item"><a href="/jogarei" class="nav-link">Jogarei</a></li>
+            <li class="nav-item"><a href="/cadastragame" class="nav-link">Cadastrar</a></li>
         </ul>
 
     </header>
@@ -35,36 +36,38 @@
 
 <div class="container">
 
-    <form class="card-body" action="/cadastragame" method="POST">
-
-        <input type="hidden" name="_method" value="put" th:if="${games != null}">
-        <input type="hidden" name="id" th:value="${games?.id}">
+    <form class="card-body" th:method="post" th:object="${games}" th:action="@{/cadastragame(id=${games.id})}">
+        <input type="hidden" name="_method" value="put">
 
         <div class="row mb-3">
             <label for="nome" class="col-sm-2 col-form-label">Nome do Jogo</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="nome" name="nome" th:value="${games?.nome}" required>
+                <input type="text" th:field="*{nome}" class="form-control" id="nome" name="nome">
+                    <p class="error text-danger" th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}">Nome Inválido</p>
             </div>
         </div>
 
         <div class="row mb-3">
             <label for="nota" class="col-sm-2 col-form-label">Nota</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="nota" name="nota" th:value="${games?.nota}">
+                <input type="text" th:field="*{nota}" class="form-control" id="nota" name="nota" maxlength="2">
+                <p class="error text-danger" th:if="${#fields.hasErrors('nota')}" th:errors="*{nota}">Nota inválida</p>
             </div>
         </div>
 
         <div class="row mb-3">
             <label for="imagem" class="col-sm-2 col-form-label">Imagem do Jogo</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="imagem"  name="imagem" th:value="${games?.imagem}">
+                <input type="text" th:field="*{imagem}" class="form-control" id="imagem"  name="imagem">
+                <p class="error text-danger" th:if="${#fields.hasErrors('imagem')}" th:errors="*{imagem}">Imagem inválida</p>
             </div>
         </div>
 
         <div class="row mb-3">
             <label for="avaliacao" class="col-sm-2 col-form-label">Avaliação</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="avaliacao" name="avaliacao" th:value="${games?.avaliacao}">
+                <input type="text"  th:field="*{avaliacao}" class="form-control" id="avaliacao" name="avaliacao">
+                <p class="error text-danger" th:if="${#fields.hasErrors('avaliacao')}" th:errors="*{avaliacao}">Avaliaçãp inválida</p>
             </div>
         </div>
 
@@ -72,10 +75,11 @@
             <legend class="col-form-label col-sm-2 pt-0">Status</legend>
             <div class="col-sm-10">
                 <div class="form-check" th:each="status : ${T(br.com.jpgdev.jogos.games.GamesStatus).values()}">
-                    <input class="form-check-input" type="radio" name="status" id="status" th:value="${status}">
+                    <input class="form-check-input" type="radio" name="status" id="status" th:value="${status}" th:checked="${status == games?.status}">
                     <label class="form-check-label" for="status" th:text="${status}">
                     </label>
                 </div>
+                <p class="error text-danger" th:if="${#fields.hasErrors('status')}" th:errors="*{status}">Status inválido</p>
             </div>
         </fieldset>
 
