@@ -19,9 +19,9 @@ GameTime é um projeto 🛠️ que permite aos usuários 🕹️ registrar e ger
 Para executar o aplicativo, siga as etapas abaixo:
 
 1. Crie um banco de dados usando MySql.
-2. Abra o `application.properties` arquivo localizado em src/main/resources.
-3. Modifique as propriedades `spring.datasource.url`, ``spring.datasource.username`` e ``spring.datasource.password`` de acordo com as configurações do seu banco de dados.
-4. Clone este repositório.
+2. Clone este repositório.
+3. Abra o `application.properties` arquivo localizado em src/main/resources.
+4. Modifique as propriedades `spring.datasource.url`, ``spring.datasource.username`` e ``spring.datasource.password`` de acordo com as configurações do seu banco de dados.
 5. Navegue até o diretório raiz do projeto.
 6. Execute o seguinte comando para compilar e executar o aplicativo:
 
